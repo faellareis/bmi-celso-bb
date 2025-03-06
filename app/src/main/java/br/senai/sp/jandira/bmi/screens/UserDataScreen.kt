@@ -56,7 +56,7 @@ fun UserDataScreen(modifier: Modifier = Modifier){
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(700.dp),
+                        .height(730.dp),
                     shape = RoundedCornerShape(
                         topStart = 50.dp,
                         topEnd = 50.dp)
