@@ -46,10 +46,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.bmi.R
 
 @Composable
-fun UserDataScreen(modifier: Modifier = Modifier) {
+fun UserDataScreen(navController: NavHostController?) {
 
     var ageState = remember {
         mutableStateOf("")
@@ -305,7 +306,11 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
                     )
                 }
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController?.navigate(
+                           route = "result"
+                        )
+                    },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth(),
@@ -316,7 +321,8 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         text = stringResource(R.string.Calculate),
-                        color = Color.Black
+                        color = Color.Black,
+                        fontSize = 18.sp,
                     )
                 }
             }
@@ -327,5 +333,5 @@ fun UserDataScreen(modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true)
 @Composable
 private fun UserDataScreenPreview() {
-    UserDataScreen()
+    UserDataScreen(null)
 }
