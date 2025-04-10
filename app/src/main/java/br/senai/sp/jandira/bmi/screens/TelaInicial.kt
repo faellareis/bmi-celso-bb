@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.bmi.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -143,6 +144,13 @@ fun TelaInicial(navController: NavHostController?) {
                                 isErrorState.value = true
                                 errorMessageState.value = context.getString(R.string.support_name)
                             } else {
+                                val sharedNome = context
+                                    .getSharedPreferences("usuario", Context.MODE_PRIVATE)
+
+                                val editor = sharedNome.edit()
+                                editor.putString("user_name", nomeState.value.trim())
+                                editor.apply()
+
                                 navController?.navigate("user_data")
                             }
                         },

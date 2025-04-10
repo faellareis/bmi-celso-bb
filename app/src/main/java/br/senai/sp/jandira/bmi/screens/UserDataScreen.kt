@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.bmi.screens
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -62,6 +64,11 @@ fun UserDataScreen(navController: NavHostController?) {
         mutableStateOf("")
     }
 
+    val context = LocalContext.current
+    val sharedUserFile = context
+        .getSharedPreferences("usuario", Context.MODE_PRIVATE)
+    val userName = sharedUserFile.getString("user_name", "Name out found!")
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +89,7 @@ fun UserDataScreen(navController: NavHostController?) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = stringResource(R.string.hi),
+                text = stringResource(R.string.hi) + " $userName! ",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -307,9 +314,13 @@ fun UserDataScreen(navController: NavHostController?) {
                 }
                 Button(
                     onClick = {
-                        navController?.navigate(
-                           route = "result"
-                        )
+                        val editor = sharedUserFile.edit()
+                        editor.putInt("user_age", ageState.value.trim().toInt())
+                        editor.putInt("user_weight", weightState.value.trim().toInt())
+                        editor.putInt("user_height", heightState.value.trim().toInt())
+                        editor.apply()
+
+                    navController?.navigate("result_screen")
                     },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -320,7 +331,7 @@ fun UserDataScreen(navController: NavHostController?) {
 
                 ) {
                     Text(
-                        text = stringResource(R.string.Calculate),
+                        text = stringResource(R.string.next),
                         color = Color.Black,
                         fontSize = 18.sp,
                     )
